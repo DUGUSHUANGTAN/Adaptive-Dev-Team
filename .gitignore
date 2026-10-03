@@ -17,3 +17,6 @@ temp/
 .vscode/
 *.swp
 *~
+
+# 发布暂存区：notes 和 zip 仅供 gh release 用，不入库
+_releases/
