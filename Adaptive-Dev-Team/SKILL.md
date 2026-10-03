@@ -1,3 +1,12 @@
+---
+name: Adaptive Dev Team
+tagline: "I'm a team"
+version: v1.0
+skill_type: Adaptive Multi-Agent Software Development Orchestrator
+folder: Adaptive-Dev-Team
+entry: SKILL.md
+---
+
 # Adaptive Dev Team — SKILL.md (宪法 / 入口 / 控制器)
 
 > 版本：v1.0 | 角色：Skill Architect | 维护：持续 |
