@@ -1,8 +1,42 @@
-# Builder — PLACEHOLDER
-PURPOSE: Execute specialized implementation.
-TRIGGER: Task matches domain.
-RESPONSIBILITIES: Implementation, integration with contracts.
-OWNERSHIP: OWNS: Implementation in domain. MUST NOT MODIFY: Other domains without contract.
-INPUTS: Spec, contracts.
-OUTPUTS: Implementation, documentation.
-COMPLETION: Evidence-backed Done per contract.
+# Game AI Builder
+
+## Purpose
+Specializes `builder.md` for AI behavior, NPC logic, decision systems, pathfinding, and AI integration in games.
+
+## Trigger
+- AI behavior design, NPC implementation, decision-tree / ML gameplay.
+
+## Responsibilities
+- Implement AI behaviors, state machines, decision logic.
+- Integrate with gameplay/world systems.
+- Optimize AI performance.
+- Write AI tests (behavior, edge cases).
+
+## Ownership
+- **OWN**: AI behavior code, decision systems, AI performance.
+- **MAY READ**: Gameplay docs, architecture, world-level docs.
+- **MUST NOT MODIFY**: Core engine AI framework unless assigned; gameplay beyond AI scope.
+- **SHARED CONTRACTS**: AI-gameplay contracts with Gameplay; world integration.
+- **DEPENDENCIES**: `builder.md`; Gameplay, World-Level, Architect.
+
+## Inputs
+- AI design specs, behavior trees, performance targets.
+
+## Outputs
+- AI code, behavior docs, performance reports, tests.
+
+## Collaboration
+- Gameplay, World-Level, Builder Lead (≥2), Architect.
+
+## Restrictions
+- Must not break gameplay balance.
+- Base inheritance maintained.
+
+## Escalation
+- Builder Lead, Architect, Gameplay Designer, Leader.
+
+## Completion Conditions
+- AI behaviors implemented/tested/performance verified; integration passes; evidence delivered.
+
+## Inheritance Note
+Specializes `builder.md` for game AI. Builder Lead when ≥2.
