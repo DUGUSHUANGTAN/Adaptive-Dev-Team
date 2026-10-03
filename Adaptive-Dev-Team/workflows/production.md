@@ -1,5 +1,5 @@
-# Workflow — PLACEHOLDER
+# Workflow
 WHEN: Task matches profile.
-TEAM: Dynamic based on complexity.
-STAGES: Triage → Spec/Plan → Execute → Verify → Handoff.
-COMPLETION: Evidence-backed per workflow depth.
+TEAM: Dynamic from triage.
+STAGES: Triage → Spec/Plan (if medium+) → Execute → Verify → Handoff → Acceptance (if production/large).
+COMPLETION: Evidence-backed per workflow depth (light = builder+review; production = full team + acceptance).

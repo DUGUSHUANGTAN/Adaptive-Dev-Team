@@ -164,6 +164,8 @@
 
 ```
 Triage → Select → Execute → Verify → Handoff → Archive
+
+MANDATORY SUB-AGENT CALL: If host supports Sub-Agent / Delegation / Agent Team, this Skill MUST spawn / delegate to Sub-Agents per Task DAG (see protocols/delegation.md). Sequential single-agent execution is prohibited for Medium+ / Multi-module / Parallel Potential > Low tasks.
 ```
 
 | 阶段 | 入口 | 负责 | 输出 | 完成条件 |
