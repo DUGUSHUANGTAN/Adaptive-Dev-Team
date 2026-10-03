@@ -1,15 +1,21 @@
 ---
-name: Adaptive Dev Team
-tagline: "I'm a team"
-version: v1.0
-skill_type: Adaptive Multi-Agent Software Development Orchestrator
-folder: Adaptive-Dev-Team
-entry: SKILL.md
+name: adaptive-dev-team
+description: Dynamically orchestrates specialized sub-agents for software development work including feature implementation, bug fixing, refactoring, software architecture, web/app/game/AI application development, integration, optimization, migration, and release work. Use when a coding task benefits from task decomposition into a task DAG, role specialization, dependency-aware execution, or parallel development across modules, and scale from a minimal light workflow for small changes up to a coordinated multi-agent team with builder lead, specialists, integration and review. Do not use for explanation-only, translation, or trivial syntax questions.
+license: MIT
+metadata:
+  tagline: "I am a team"
+  version: "v1.0"
+  skill-type: Adaptive Multi-Agent Software Development Orchestrator
+  entry: SKILL.md
 ---
 
-# Adaptive Dev Team — SKILL.md (宪法 / 入口 / 控制器)
+# Adaptive Dev Team
 
-> 版本：v1.0 | 角色：Skill Architect | 维护：持续 |
+> I am a team
+
+---
+
+> 本文件：SKILL.md（宪法 / 入口 / 控制器）| 版本：v1.0 | 角色：Skill Architect | 维护：持续 |
 > 规则：渐进披露。此文件只做指引和引用，完整内容见各目录下的详细文件。
 
 ---
@@ -34,22 +40,73 @@ entry: SKILL.md
 
 ---
 
-## 3. Trigger / Non-trigger Conditions
+## 3. Core Behavior（核心行为）
 
-### 触发（开始使用本协议）
-- 新项目/新阶段需要多角色协作交付
-- 需要明确“谁做决定 / 谁执行 / 谁验证”的责任链
-- 需要避免规则重复、内容膨胀的文档仓库
-- 任务类型属于：架构设计、构建执行、专家评审、流程执行
+无论宿主是什么，每条任务都走同一条骨架：
 
-### 不触发（直接跳过，不必进入协议）
-- 纯个人单脚本任务（无交接需求）
-- 已存在完全匹配的独立工作流，且无交接需求
-- 仅需要查询知识（直接读 references/，不进入执行生命周期）
+```
+Triage → 建 Task DAG → 组 Minimum Sufficient Team → 分配 Ownership
+→ 并行/串行执行 → Integration → QA/Review → Fix Loop → Handoff
+```
+
+关键约束：
+- **Decompose first**：先把任务拆成 DAG 节点，再决定要不要组团队。
+- **Minimum Sufficient Team**：只招募真正需要的角色，不为完整性而加人。
+- **Ownership 唯一**：每个产出只有一个 owner，不允许自检代替评审。
+- **Dependency-aware**：无依赖的节点并行，有依赖的按 DAG 顺序执行。
+- **可运行的验证 > 完美的设计**。
 
 ---
 
-## 4. Core Principles (5条最高原则)
+## 4. Capability Detection（宿主能力探测）
+
+多 Agent 编排使用**通用语义**，不绑定任何平台的函数名或 API：
+spawn sub-agent / delegate task / assign ownership / execute in parallel / collect results / handoff / integrate。
+
+执行多 Agent 工作流前，先判断宿主能力：
+
+| 宿主支持 | 执行方式 |
+|---|---|
+| 子 Agent + 并行执行 | 真正 spawn 多个子 Agent，按 DAG 并行跑 |
+| 仅顺序 delegation | 逐个 delegate，按 DAG 拓扑顺序串行跑 |
+| 完全不支持子 Agent | 退化为单 Agent：自己依次扮演各角色（同一顶帽子下切换角色），执行完全相同的角色分离、Triage、Review、Fix Loop 逻辑 |
+
+> ponytail: 缺少平台专属 Agent Team API 时 Skill 不得失效——降级路径必须和并行路径产出等价的结果，只是耗时更长。
+
+---
+
+## 5. When to Use（触发场景）
+
+**实际软件开发工作**，且任务可以从分工中获益时使用：
+- Feature implementation（新功能、多文件落地）
+- Bug fixing（需要复现 → 定位 → 修复 → 回归）
+- Refactoring（结构改动，行为不变）
+- Software architecture（跨模块设计、边界划分、接口契约）
+- 多模块 / 多仓库开发，存在可并行的独立节点
+- Web / App / Game / AI 项目开发
+- Integration（前后端/API/子系统对齐、merge）
+- Optimization（性能、构建体积、运行时开销）
+- Migration（框架、数据库、版本、语言迁移）
+- Release work（发版准备、CI/CD、发布检查清单）
+- 需要明确“谁做决定 / 谁执行 / 谁验证”的责任链交付
+
+---
+
+## 6. When Not to Use（不触发）
+
+以下情况直接回答，不要进入本协议：
+- 仅解释代码 / 讲解设计思路
+- 简单语法问题、单行修改、明显的 typo
+- 理论问答、概念科普
+- 纯翻译、文案润色
+- 不涉及实际开发工作的普通问题
+- 已存在完全匹配的独立工作流，且无交接需求
+
+> 极小的实际代码修改（1-2 个文件、无依赖关系）**可以用本 Skill**，但走 `workflows/light.md` 的最小流程，不需要 spawn 完整 Agent Team。
+
+---
+
+## 7. Core Principles (5条最高原则)
 
 1. **YAGNI 先于抽象**：没有确认的需求不写接口、工厂、配置。推测性需求 = 跳过。
 2. **复用先于重造**：标准库、平台原生、已有依赖优先。动手前先 grep。同一功能已有实现 = 直接复用。
@@ -59,7 +116,7 @@ entry: SKILL.md
 
 ---
 
-## 5. Initial Triage（初始分流）
+## 8. Initial Triage（初始分流）
 
 进入协议的第一步，决定任务类型：
 
@@ -76,7 +133,7 @@ entry: SKILL.md
 
 ---
 
-## 6. Workflow Selection（工作流选择）
+## 9. Workflow Selection（工作流选择）
 
 根据任务性质选对应目录，不混用：
 
@@ -95,7 +152,7 @@ entry: SKILL.md
 
 ---
 
-## 7. Progressive Disclosure（何时读什么文件）
+## 10. Progressive Disclosure（何时读什么文件）
 
 新成员 / 外部观察者 → 深度执行者 → 专家评审者，信息量逐层增加：
 
@@ -124,7 +181,7 @@ entry: SKILL.md
 
 ---
 
-## 8. Team Composition（团队构成）
+## 11. Team Composition（团队构成）
 
 团队由三个功能组构成，职责互斥、交接明确：
 
@@ -132,7 +189,7 @@ entry: SKILL.md
 - **责任**：定义身份、决策权、边界、交接格式
 - **产出**：角色定义文件、职责矩阵、决策权图
 - **不做**：不直接执行构建，不直接评审代码
-- **详细**：`roles/README.md` → 各角色定义文件（渐进披露）
+- **详细**：`roles/` 各角色定义文件（leader → planner → builder-lead → builder → reviewer，见 §15）
 
 ### B. Builders（构建执行组）`builders/`
 - **责任**：实现、构建、交付可运行产出
@@ -150,7 +207,7 @@ entry: SKILL.md
 
 ---
 
-## 9. Delegation Rules（委托规则）
+## 12. Delegation Rules（委托规则）
 
 任务进入协议后，按此规则分配：
 
@@ -167,19 +224,19 @@ entry: SKILL.md
 
 ---
 
-## 10. Execution Lifecycle（执行生命周期）
+## 13. Execution Lifecycle（执行生命周期）
 
 所有进入协议的任务必须经过：
 
 ```
 Triage → Select → Execute → Verify → Handoff → Archive
 
-MANDATORY SUB-AGENT CALL: If host supports Sub-Agent / Delegation / Agent Team, this Skill MUST spawn / delegate to Sub-Agents per Task DAG (see protocols/delegation.md). Sequential single-agent execution is prohibited for Medium+ / Multi-module / Parallel Potential > Low tasks.
+SUB-AGENT RULE: Per the Task DAG (see protocols/delegation.md, protocols/task-dag.md), Medium+ / multi-module / parallel-potential > Low tasks MUST use separate sub-agents with single ownership, in parallel where dependencies allow. See §4 Capability Detection for how to run this on hosts without sub-agent support.
 ```
 
 | 阶段 | 入口 | 负责 | 输出 | 完成条件 |
 |---|---|---|---|---|
-| Triage | SKILL.md §5 | Lead / Skill Architect | 任务类型 + 主目录选定 | 选出主入口目录 |
+| Triage | SKILL.md §8 | Lead / Skill Architect | 任务类型 + 主目录选定 | 选出主入口目录 |
 | Select | 主目录 + workflows/ | 任务执行者 | 具体文件/模块选定 | 明确修改范围 |
 | Execute | builders/ 或 specialists/ | 执行者 | 产出（代码/文档/报告） | 完成，含自检 |
 | Verify | specialists/ + protocols/ | 专家 / 交互协议 | 验证报告 / 通过标记 | 通过或拒绝 + 记录 |
@@ -190,7 +247,7 @@ MANDATORY SUB-AGENT CALL: If host supports Sub-Agent / Delegation / Agent Team, 
 
 ---
 
-## 11. Completion Logic（完成逻辑）
+## 14. Completion Logic（完成逻辑）
 
 任务完成需同时满足：
 
@@ -207,39 +264,54 @@ MANDATORY SUB-AGENT CALL: If host supports Sub-Agent / Delegation / Agent Team, 
 
 ---
 
-## 12. Pointers to Detailed Files（详细文件指向）
+## 15. Pointers to Detailed Files（详细文件指向）
 
-本文件是渐进披露的顶节点，以下是各目录的完整内容位置：
+本文件是渐进披露的顶节点。以下路径均相对本 SKILL.md 所在目录。
 
 ### 角色与构成
-- `roles/README.md` — 角色体系总览、职责矩阵
-- `roles/` 下各文件 — 角色定义、决策权、边界（由 Role System Designer 完成）
-- `builders/README.md` — 构建执行指南、交接前准备
-- `specialists/README.md` — 专家评审标准、验证清单
+- `roles/leader.md` — 团队负责人：Triage、组队、决策、预算（入口角色）
+- `roles/planner.md` — 任务拆解与计划
+- `roles/builder-lead.md` — ≥2 Builder 并行时的协调者
+- `roles/builder.md` — 构建者
+- `roles/architect.md` — 架构师；`roles/integration-engineer.md` — 集成工程
+- `roles/code-reviewer.md` / `roles/qa-engineer.md` / `roles/acceptance-reviewer.md` — 评审与验收
+- `roles/product-analyst.md` / `roles/spec-writer.md` / `roles/ux-designer.md` / `roles/researcher.md` — 上游角色
+- `builders/*.md` — 领域构建执行指南（frontend / backend / fullstack / mobile / desktop / database / api-integration / ai-llm / gameplay / game-ai / graphics-3d / world-level / infrastructure / generic-specialist）
+- `specialists/*.md` — 专家评审标准（security / performance / accessibility / privacy-compliance / migration / devops-release / sre-operations / documentation / domain-expert / dynamic-specialist）
 
 ### 流程与协议
-- `workflows/README.md` — 生命周期完整定义、阶段检查点
-- `workflows/` 下各文件 — 具体工作流（架构流、构建流、评审流）
-- `protocols/README.md` — 交互协议总则
-- `protocols/` 下各文件 — 交接格式、决策记录标准、验证协议
+- `workflows/light.md` — 最小流程：小改动、单 Builder
+- `workflows/standard.md` — 标准流程；`workflows/advanced.md` — 复杂项目
+- `workflows/bugfix.md` / `workflows/refactor.md` / `workflows/optimization.md` / `workflows/migration.md` / `workflows/release.md` / `workflows/production.md` / `workflows/research-heavy.md` — 任务类型专用工作流
+- `protocols/triage.md` — 分流规则
+- `protocols/delegation.md` — 委托契约
+- `protocols/task-dag.md` — Task DAG 构造与并行化
+- `protocols/ownership.md` — Ownership 与单一 owner
+- `protocols/parallelization.md` — 并行判定
+- `protocols/integration.md` — 集成与合并
+- `protocols/handoff.md` — 交接格式
+- `protocols/fix-loop.md` — Fix Loop
+- `protocols/escalation.md` / `protocols/conflict-resolution.md` — 升级与冲突解决
 
 ### 规则与模板
-- `policies/README.md` — 规则体系总则、约束层级
-- `policies/` 下各文件 — 具体约束（安全、质量、性能、决策标准）
-- `templates/README.md` — 模板使用指南
-- `templates/` 下各文件 — 报告模板、交接模板、评审模板
+- `policies/team-composition.md` — Minimum Sufficient Team、动态组队
+- `policies/agent-budget.md` — Agent 预算
+- `policies/context-management.md` — 上下文管理
+- `policies/definition-of-done.md` — Definition of Done
+- `policies/quality-gates.md` / `policies/stop-conditions.md` / `policies/change-management.md` — 质量门槛、停止条件、变更管理
+- `templates/task-contract.md` — 任务契约；`templates/handoff-report.md` — 交接
+- `templates/triage-report.md` / `templates/decision-record.md` / `templates/bug-report.md` / `templates/integration-report.md` / `templates/acceptance-report.md` — 其他标准格式
 
 ### 参考与示例
-- `references/README.md` — 参考体系、外部标准链接
-- `references/` 下各文件 — 外部文档、知识库条目
-- `examples/README.md` — 范例使用指南
-- `examples/` 下各文件 — 完成任务范例（不用于复制，仅对比）
-- `scripts/README.md` — 脚本说明、运行方式
-- `scripts/` 下各文件 — 自动化脚本
+- `examples/small-fix.md` — 小修复范例（对应 `workflows/light.md`）
+- `examples/normal-feature.md` — 标准功能范例；`examples/web-app.md` — Web 项目范例
+- `examples/complex-game.md` — 复杂项目范例
+- `scripts/check-structure.py` — 结构自检脚本，直接运行：`python3 scripts/check-structure.py`
+- `references/` — 参考文档目录（当前为空；外部标准链接放此处）
 
 ---
 
-## 13. 变更与维护
+## 16. 变更与维护
 
 - **修改 SKILL.md**：需 Lead + Role Architect 批准；修改后必须同步更新 `workflows/` 中的生命周期定义（若涉及阶段变更）
 - **修改角色内容**：由 `roles/` 负责人执行，不影响 SKILL.md（渐进披露保证独立性）
@@ -248,15 +320,17 @@ MANDATORY SUB-AGENT CALL: If host supports Sub-Agent / Delegation / Agent Team, 
 
 ---
 
-## 14. 快速参考（Quick Ref）
+## 17. 快速参考（Quick Ref）
 
 ```
-我在做什么？ → 看 §5 Initial Triage
-需要哪个目录？ → 看 §6 Workflow Selection
-新成员看什么？ → 看 §7 Progressive Disclosure (层 0 → 4)
-谁做什么？ → 看 §8 Team Composition + §9 Delegation Rules
-完成标准？ → 看 §11 Completion Logic
-完整内容在哪？ → 看 §12 Pointers to Detailed Files
+我在做什么？ → 看 §8 Initial Triage
+该用哪些角色？ → 看 §5 When to Use / §6 When Not to Use
+宿主能并行吗？ → 看 §4 Capability Detection
+需要哪个目录？ → 看 §9 Workflow Selection
+新成员看什么？ → 看 §10 Progressive Disclosure (层 0 → 4)
+谁做什么？ → 看 §11 Team Composition + §12 Delegation Rules
+完成标准？ → 看 §14 Completion Logic
+完整内容在哪？ → 看 §15 Pointers to Detailed Files
 ```
 
 > 提醒：本文件是控制器，不是内容库。完整内容只在各目录文件中，SKILL.md 的作用是让你知道“去哪里找”而不是“把什么都告诉你”。
