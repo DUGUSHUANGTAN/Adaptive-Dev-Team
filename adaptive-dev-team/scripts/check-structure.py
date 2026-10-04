@@ -97,6 +97,27 @@ def check_package_hygiene(root):
     return errors, warnings
 
 
+def check_license(root):
+    """The distributable must be self-contained: LICENSE ships inside the package."""
+    errors, warnings = [], []
+    bundled = root / "LICENSE"
+    if bundled.is_file():
+        upstream = root.parent / "LICENSE"
+        # Drift guard: only applies when this skill sits inside its own repo.
+        # Absent upstream is fine — the package must work standalone.
+        if upstream.is_file() and upstream.read_bytes() != bundled.read_bytes():
+            warnings.append(
+                "LICENSE: bundled copy differs from the repository root `LICENSE`; "
+                "re-sync it (cp %s %s)" % (upstream, bundled)
+            )
+    else:
+        warnings.append(
+            "LICENSE: no LICENSE file inside the skill package; the distributable "
+            "would not carry its own license"
+        )
+    return errors, warnings
+
+
 def check_layout(root):
     errors, warnings = [], []
     for d in REQUIRED_DIRS:
@@ -258,6 +279,7 @@ def run_all(root):
     for check in (
         check_layout,
         check_package_hygiene,
+        check_license,
         check_frontmatter,
         check_references,
         check_placeholders,
@@ -324,6 +346,8 @@ def self_test():
         # 8. Drop macOS metadata into the package -> hygiene WARNING.
         (root / ".DS_Store").write_bytes(b"\x00")
         (root / "roles" / "._leader.md").write_bytes(b"\x00")
+        # 9. Let the bundled LICENSE drift from the repo root -> WARNING.
+        (root.parent / "LICENSE").write_text("a different license\n", encoding="utf-8")
 
         errors, warnings = run_all(root)
         expected = {
@@ -337,7 +361,7 @@ def self_test():
         for key in expected:
             expected[key] = any(key in e for e in errors)
         missed = [k for k, found in expected.items() if not found]
-        warn_expected = {"checked box", "completion checkmark", "PACKAGE HYGIENE"}
+        warn_expected = {"checked box", "completion checkmark", "PACKAGE HYGIENE", "LICENSE: bundled copy differs"}
         warn_missed = [k for k in warn_expected if not any(k in w for w in warnings)]
         if missed or warn_missed:
             print("SELF-TEST FAILED: checks did not fire for: %s" % (missed + warn_missed))
@@ -345,7 +369,7 @@ def self_test():
             print("warnings seen: %s" % warnings)
             return 1
     print(
-        "SELF-TEST OK: 6 injected defects + 3 warning classes detected, clean copy passes"
+        "SELF-TEST OK: 6 injected defects + 4 warning classes detected, clean copy passes"
     )
     return 0
 

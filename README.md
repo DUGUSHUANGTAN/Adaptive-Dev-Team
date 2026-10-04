@@ -61,9 +61,24 @@ The skill package lives in `adaptive-dev-team/` (matches frontmatter `name`):
 - `templates/` — 7 report templates
 - `examples/` — 4 illustrative, hypothetical examples (not executed)
 - `scripts/` — Validation script (`check-structure.py`, standard library only)
+- `LICENSE` — bundled copy, so the package is self-contained (see below)
 
 `references/` is **optional** and is not shipped by default; add it only if you have
 external reference material to attach.
+
+### Release package layout
+
+The published release ZIP extracts to **exactly one directory** — there are no loose
+files at the archive root. Unzip it into your skills folder and it is ready:
+
+```text
+skills/
+└── adaptive-dev-team/     ← everything, including LICENSE
+```
+
+The repository root keeps its own `LICENSE` so GitHub detects the license;
+`adaptive-dev-team/LICENSE` is the copy that ships inside the package. The two must
+stay identical — `scripts/check-structure.py` reports drift.
 
 ## Development
 
@@ -72,4 +87,5 @@ local commits; this is a self-contained skill package.
 
 ## License
 
-MIT License — see `LICENSE` file.
+MIT License — see the root `LICENSE`; the same license ships inside the package at
+`adaptive-dev-team/LICENSE`.
