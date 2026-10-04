@@ -1,9 +1,20 @@
 # Changelog
 
-## Unreleased
-- Initial Adaptive Dev Team Skill architecture.
+## v1.1 — Compatibility, Orchestration & Consistency Repair (2026-10-04)
+- **Standalone packaging:** the skill no longer references or requires any file outside its own root. `../CHANGELOG.md` was removed from `SKILL.md` and `policies/change-management.md` and replaced with a note that repository release history is a distributor's option, not a runtime dependency. `scripts/check-structure.py` now passes with 0 errors when only `adaptive-dev-team/` is present.
+- **Release hygiene:** packaging instructions now prevent macOS metadata by construction (`COPYFILE_DISABLE=1` + `zip -rX` + `-x`, `git archive` from a committed tree as the primary path) and the verification step aborts with `exit 1` instead of printing a status. `check-structure.py` warns if `.DS_Store` / `._*` / `__MACOSX` / `__pycache__` / `*.pyc` exist inside the skill directory; the stray `.DS_Store` was removed.
+- **Compatibility metadata:** `compatibility` rewritten to be accurate and vendor-neutral — it no longer implies the whole skill is Python or stdlib-bound, and it states that the bundled validation script is what uses the standard library only.
+- **Process weight:** skip accounting is no longer blanket. LIGHT silently skips optional roles without emitting an `N/A` list; a skip reason is recorded only when the omission affects risk or acceptance, when a normally expected stage was deliberately skipped, or when the user asks for an audit trail. `workflows/core.md`, `workflows/light.md`, `workflows/standard.md`, `workflows/refactor.md`, `SKILL.md` and `examples/small-fix.md` were aligned.
+- **Discovery:** renamed the skill directory `Adaptive-Dev-Team/` → `adaptive-dev-team/` so it matches the frontmatter `name` exactly, as the Agent Skills specification requires. The release asset keeps the product name (`Adaptive-Dev-Team.zip`) while packaging the `adaptive-dev-team/` prefix; `check-structure.py` now asserts the directory/`name` match.
+- **Semantics:** corrected completion claims — "done" now requires evidence per `policies/definition-of-done.md`; reviews are described as separate, non-independent passes rather than independent sign-off.
+- **Workflows:** refactored to a shared core (`workflows/core.md`) plus per-workflow delta files, removing duplicated lifecycle text.
+- **Context:** fixed handoff/context management so delegated tasks carry the context they need (`protocols/handoff.md`, `policies/context-management.md`).
+- **Examples:** marked all `examples/*.md` as hypothetical (not executed); removed unverified acceptance/deployment claims; unchecked items stay `[ ]`; metrics marked as targets; `examples/small-fix.md` now shows the correct minimal team (Frontend Builder + optional non-independent review; Builder Lead only at ≥2 Builders).
+- **Verifier:** updated `scripts/check-structure.py` to match the current directory layout and workflow core/delta split.
+- **Packaging:** release ZIP build fixed — includes the skill body and the root `LICENSE`, excludes macOS metadata (`.DS_Store`, `__MACOSX/`, `._*`) and temporary files; `references/` documented as optional (packaging notes ship with the GitHub Release, not in the repo).
 
 ## v1.0 — SKILL.md architecture complete (Skill Architect)
+- Initial Adaptive Dev Team Skill architecture.
 - Created `Adaptive-Dev-Team/SKILL.md`: full entry point / controller (Identity, Purpose, Trigger/Non-trigger, 5 Core Principles, Initial Triage, Workflow Selection, Progressive Disclosure layers, Team Composition, Delegation Rules, Execution Lifecycle, Completion Logic, Pointers to detailed files)
 - Created directory skeleton under `Adaptive-Dev-Team/`: roles/, builders/, specialists/, workflows/, protocols/, policies/, templates/, scripts/, references/, examples/
 - SKILL.md does NOT embed full role content — only progressive-disclosure references (to be filled by Role System Designer)

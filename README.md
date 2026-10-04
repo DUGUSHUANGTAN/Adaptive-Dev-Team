@@ -5,8 +5,8 @@
 Adaptive Multi-Agent Software Development Orchestrator.
 
 A meta-skill that analyzes your development task and dynamically assembles the right
-multi-agent team — from a single Builder for a one-liner to a hierarchical hierarchy
-of Builders, Specialists, and Reviewers for a production system.
+multi-agent team — from a single Builder for a one-liner up to a coordinated team of
+Builders, Reviewers, and (only when their trigger fires) Specialists.
 
 ![Adaptive Dev Team Skill](https://img.shields.io/badge/Skill-Adaptive--Dev--Team-blue)
 
@@ -21,22 +21,49 @@ of Builders, Specialists, and Reviewers for a production system.
 
 ## Installation
 
-Copy the `Adaptive-Dev-Team/` directory into your skills folder and reference
+Copy the `adaptive-dev-team/` directory into your skills folder and reference
 `SKILL.md` as the entry point. The skill follows progressive disclosure: start with
 `SKILL.md`, load sub-modules (`roles/`, `workflows/`, `protocols/`) only when needed.
 
+The skill is **standalone and vendor-neutral**: it declares no runtime dependencies
+and reads no file outside its own directory, so copying that one directory is enough.
+The only bundled code is the optional validation script, which uses the Python
+standard library only.
+
+`SKILL.md` carries Agent Skills-compliant YAML frontmatter:
+
+```yaml
+name: adaptive-dev-team
+description: Dynamically orchestrates specialized sub-agents for software development work ...
+license: MIT
+```
+
+The skill directory is `adaptive-dev-team/`, which matches the frontmatter `name`
+exactly, as the Agent Skills specification requires — `scripts/check-structure.py`
+asserts this on every run. The frontmatter's `license: MIT` matches the root
+[`LICENSE`](LICENSE).
+
+> The repository and the release asset keep the product name **Adaptive Dev Team**
+> (`Adaptive-Dev-Team.zip`); only the skill directory uses the spec-required
+> lowercase slug `adaptive-dev-team`.
+
 ## Project structure
 
-- `SKILL.md` — Main controller and entry point
+The skill package lives in `adaptive-dev-team/` (matches frontmatter `name`):
+
+- `SKILL.md` — Main controller and entry point (frontmatter: `name: adaptive-dev-team`, `license: MIT`)
 - `roles/` — 13 core roles (Leader, Architect, Builder Lead, etc.)
 - `builders/` — 14 builder types (Frontend, Backend, AI/LLM, etc.)
 - `specialists/` — 10 specialist roles (Security, Performance, etc.)
-- `workflows/` — 10 workflow profiles (Light, Standard, Production, etc.)
+- `workflows/` — shared `core.md` lifecycle + 10 per-workflow delta profiles (Light, Standard, Production, etc.)
 - `protocols/` — 10 collaboration protocols (Delegation, Integration, Escalation, etc.)
 - `policies/` — 7 governance policies (Agent Budget, Stop Conditions, DoD, etc.)
 - `templates/` — 7 report templates
-- `examples/` — 4 example workflows
-- `scripts/` — Validation scripts
+- `examples/` — 4 illustrative, hypothetical examples (not executed)
+- `scripts/` — Validation script (`check-structure.py`, standard library only)
+
+`references/` is **optional** and is not shipped by default; add it only if you have
+external reference material to attach.
 
 ## Development
 
